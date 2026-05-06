@@ -2,29 +2,29 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersRepository } from './users.repository';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserWithPokemonDto } from './dto';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) { }
 
   async findAll(): Promise<User[]> {
     return this.usersRepository.findAll();
   }
-  async findById(id: number): Promise<UserWithPokemonDto> {
-    const user = await this.usersRepository.findByIdWithPokemons(id);
+  async findById(id: number): Promise<UserDto> {
+    const user = await this.usersRepository.findById(id);
     if (!user) {
       throw new NotFoundException(`User with ID: ${id} not found`);
     }
     return user;
   }
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserDto | null> {
     return this.usersRepository.findByEmail(email);
   }
-  async create(userData: CreateUserDto): Promise<User> {
+  async create(userData: CreateUserDto): Promise<UserDto> {
     return this.usersRepository.create(userData);
   }
-  async update(id: number, userData: Partial<User>): Promise<User> {
+  async update(id: number, userData: Partial<User>): Promise<UserDto> {
     const updatedUser = await this.usersRepository.update(id, userData);
     if (!updatedUser) {
       throw new NotFoundException(`User with ID: ${id} not found`);

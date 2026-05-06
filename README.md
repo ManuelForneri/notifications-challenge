@@ -1,15 +1,15 @@
 # Notifications Challenge
 
-You have to build a microservice that exposes a REST API to manage users and pokemons.
+You have to build a microservice that exposes a REST API to manage users.
 
 ### Badges
 
 
 ### Features
 
-- Create a new Users with their Pokemon IDs.
+- Create a new User.
 - Get Users list.
-- Get User by ID and gathering pokemons names from Poke API.
+- Get User by ID.
 - Update User.
 - Delete User.
 

@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "create-migration": "typeorm migration:create ./src/migrations/removeFavouritePokemon",
+    "create-migration": "typeorm migration:create ./src/migrations/new-migration",
     "generate-migration": "typeorm migration:generate ./src/migrations/auto-migration -d dist/data-source.js",
     "apply-migration-up": "typeorm migration:run -d dist/data-source.js",
     "apply-migration-down": "typeorm migration:revert -d dist/data-source.js",

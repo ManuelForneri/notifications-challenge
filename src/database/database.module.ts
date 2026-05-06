@@ -6,9 +6,8 @@ import { AppDataSource } from '../data-source';
   imports: [
     TypeOrmModule.forRoot({
       ...AppDataSource.options,
-      // Override synchronize to use environment variable
       synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
     }),
   ],
 })
-export class DatabaseModule {}
+export class DatabaseModule { }

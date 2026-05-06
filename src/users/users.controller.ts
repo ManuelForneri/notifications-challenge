@@ -19,12 +19,12 @@ import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserWithPokemonDto } from './dto';
+import { UserDto } from './dto/user.dto';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
   @Get()
   @ApiOperation({ summary: 'Get all users' })
@@ -38,11 +38,9 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'Return a user.',
-    type: UserWithPokemonDto,
+    type: UserDto,
   })
-  async findOne(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<UserWithPokemonDto> {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDto> {
     return this.usersService.findById(id);
   }
 
@@ -51,13 +49,13 @@ export class UsersController {
   @ApiResponse({
     status: 201,
     description: 'The user has been successfully created.',
-    type: User,
+    type: CreateUserDto,
   })
   @ApiBody({
     type: CreateUserDto,
     description: 'User data (id is not required)',
   })
-  async create(@Body() userData: CreateUserDto): Promise<User> {
+  async create(@Body() userData: CreateUserDto): Promise<UserDto> {
     return this.usersService.create(userData);
   }
 
@@ -76,7 +74,7 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'The user has been successfully updated.',
-    type: User,
+    type: UpdateUserDto,
   })
   @ApiResponse({
     status: 404,
@@ -85,7 +83,7 @@ export class UsersController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() userData: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<UserDto> {
     return this.usersService.update(id, userData);
   }
 

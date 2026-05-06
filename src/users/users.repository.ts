@@ -7,8 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserWithPokemonDto } from './dto';
-import { PokemonClient } from 'src/pokemon/pokemon.client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -16,8 +14,7 @@ export class UsersRepository {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-    private pokemonClient: PokemonClient,
-  ) {}
+  ) { }
 
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
@@ -60,24 +57,5 @@ export class UsersRepository {
   async delete(id: number): Promise<boolean> {
     const result = await this.usersRepository.delete(id);
     return result.affected !== 0;
-  }
-  async findByIdWithPokemons(id: number): Promise<UserWithPokemonDto> {
-    let user = await this.findById(id);
-    if (!user) {
-      throw new NotFoundException(`User with ID: ${id} not found`);
-    }
-    const pokemonsIds = user.pokemonsIds;
-    const pokemons =
-      await this.pokemonClient.getPokemonDetailsById(pokemonsIds);
-
-    const userWithPokemon = new UserWithPokemonDto({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      password: user.password,
-    });
-    userWithPokemon.pokemons = pokemons || [];
-
-    return userWithPokemon;
   }
 }

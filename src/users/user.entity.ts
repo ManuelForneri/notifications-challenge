@@ -14,12 +14,6 @@ export class User {
   @Column()
   password: string;
 
-  @Column('int', { array: true, default: [] })
-  pokemonsIds: number[];
-
-  @Column({ nullable: true })
-  favouritePokemon: string;
-
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);
   }
